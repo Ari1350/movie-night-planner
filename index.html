@@ -8,11 +8,24 @@
 </head>
 <body>
     <header>
-        <h1>Movie Night Planner</h1>
+        <div class="logo">🍃🍿 <span>MovieNight</span></div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for a movie (e.g. Batman)...">
+            <button id="searchBtn">Search</button>
+        </div>
     </header>
-    <main id="movie-container">
-        <p>Loading movie data...</p>
+
+    <main>
+        <section id="featuredMovie" class="hero"></section>
+        <section class="movie-grid" id="movieGrid">
+
+        </section>
     </main>
+
+    <footer style="text-align: center; padding: 20px; color: #50C878;">
+        <p>&copy; 2026 Movie Night Planner - WDD 330 Final Project</p>
+    </footer>
+
     <script src="main.js" type="module"></script>
 </body>
 </html>
