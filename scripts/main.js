@@ -10,7 +10,7 @@ async function searchMovies(query) {
     movieGrid.innerHTML = "<p>Searching movies...</p>";
 
     try {
-        const response = await fetch(`https://omdbapi.com{apiKey}&s=${query}`);
+        const response = await fetch(`https://omdbapi.com/?apikey=${apiKey}&s=${query}`);
         const data = await response.json();
 
         if (data.Search) {
@@ -28,7 +28,7 @@ async function displayMovies(movies) {
     movieGrid.innerHTML = ""; 
 
     for (const movie of movies) {
-        const detailsResponse = await fetch(`https://omdbapi.com{apiKey}&i=${movie.imdbID}`);
+        const detailsResponse = await fetch(`https://omdbapi.com/?apikey=${apiKey}&i=${movie.imdbID}`);
         const details = await detailsResponse.json();
 
         const card = document.createElement('div');
