@@ -11,7 +11,7 @@ async function initSearch(query) {
     movieGrid.innerHTML = "<p>Loading movies...</p>";
 
     try {
-        const response = await fetch(`https://omdbapi.com{OMDB_KEY}&s=${query}`);
+        const response = await fetch(`https://omdbapi.com/?apikey=${apiKey}&s=${query}`);
         const data = await response.json();
 
         if (data.Search) {
@@ -28,9 +28,8 @@ async function renderList(movies) {
     const movieGrid = document.getElementById('movieGrid');
     movieGrid.innerHTML = "";
 
-    for (const movie of movies) {
-
-        const detailRes = await fetch(`https://omdbapi.com{OMDB_KEY}&i=${movie.imdbID}`);
+    for (const movie of movies.slice(0, 8)) {
+        const detailRes = await fetch(`https://omdbapi.com/?apikey=${apiKey}&i=${movie.imdbID}`);
         const details = await detailRes.json();
 
         const tmdbRes = await fetch(`https://themoviedb.org{movie.imdbID}?api_key=${TMDB_KEY}&external_source=imdb_id`);
@@ -38,13 +37,14 @@ async function renderList(movies) {
         
         const card = document.createElement('div');
         card.className = 'movie-card';
+        const youtubeLink = `https://youtube.com{encodeURIComponent(details.Title)}+trailer`;
         card.innerHTML = `
             <img src="${details.Poster !== 'N/A' ? details.Poster : 'https://placeholder.com'}" alt="${details.Title}">
             <div class="movie-info">
                 <h3>${details.Title}</h3>
                 <p>⭐ ${details.imdbRating} | ${details.Year}</p>
                 <p style="font-size: 0.85rem;">${details.Plot.substring(0, 80)}...</p>
-                <a href="https://youtube.com{details.Title}+trailer" target="_blank" class="btn-trailer">Watch Trailer</a>
+                <a href="${youtubeLink}" target="_blank" class="btn-trailer">Watch Trailer</a>
             </div>
         `;
         movieGrid.appendChild(card);
