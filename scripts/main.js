@@ -19,6 +19,8 @@ async function searchMovies(query) {
         } else {
             movieGrid.innerHTML = "<p>No movies found. Try another title.</p>";
         }
+
+        localStorage.setItem('lastSearch', query);
     } catch (error) {
         console.error("Error:", error);
     }
@@ -36,7 +38,7 @@ async function displayMovies(movies) {
 
         let tmdbRating = "N/A";
         try {
-            const tmdbRes = await fetch(`https://themoviedb.org{movie.imdbID}?api_key=${TMDB_KEY}&external_source=imdb_id`);
+            const tmdbRes = await fetch(`https://api.themoviedb.org/3/find/${movie.imdbID}?api_key=${TMDB_KEY}&external_source=imdb_id`);
             const tmdbData = await tmdbRes.json();
             if (tmdbData.movie_results && tmdbData.movie_results.length > 0) {
                 tmdbRating = tmdbData.movie_results[0].vote_average;
@@ -56,7 +58,7 @@ async function displayMovies(movies) {
                 <p class="rating">⭐ OMDb: ${details.imdbRating} | 🎬 TMDB: ${tmdbRating}</p>
                 <p style="font-size: 0.8rem; color: #666;">${details.Genre} (${details.Year})</p>
                 <button onclick="alert('Plot: ${details.Plot.replace(/'/g, "")}')" style="width:100%; margin-top:10px; background: #C1E1C1; border:none; padding:5px; cursor:pointer; border-radius:3px;">Details</button>
-                <a href="https://youtube.com{encodeURIComponent(details.Title)}+trailer" target="_blank" style="display:block; text-align:center; margin-top:5px; color:#50C878; font-size:0.8rem; text-decoration:none;">Ver Trailer</a>
+                <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(details.Title + ' trailer')}" target="_blank" style="display:block; text-align:center; margin-top:5px; color:#50C878; font-size:0.8rem; text-decoration:none;">Ver Trailer</a>
             </div>
         `;
         movieGrid.appendChild(card);
